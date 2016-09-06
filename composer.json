@@ -1,0 +1,16 @@
+{
+    "name": "Bpm online parser",
+    "description": "Bpm online parser",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=5.5",
+        "simplepie/simplepie": "~1.4",
+        "phpmailer/phpmailer": "~5.2.14"
+    },
+    "autoload": {
+        "psr-0": {
+            "Acme": "src/"
+        }
+    }
+}
