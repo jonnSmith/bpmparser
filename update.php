@@ -2,20 +2,26 @@
 #!/usr/bin/php
 
 $lang = 'ru';
-$path = $_SERVER['DOCUMENT_ROOT'];
+
+global $path;
+$path = $_SERVER['DOCUMENT_ROOT'].'/bpmparser';
+
 $limit = (isset($_REQUEST['l']) && intval($_REQUEST['l']) > 0) ? intval($_REQUEST['l']) : 300;
 $offset = (isset($_REQUEST['o']) && intval($_REQUEST['o']) > 0) ? intval($_REQUEST['o']) : 0;
 
-require $path.'/vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 include($path.'/lib/collectData.php');
-include($path.'/lib/drupalDataBase.php');
+
 $collectData = new collectData();
 $loginMessage = $collectData->message;
-$drupalDataBase = new drupalDataBase($lang);
-$mail = new PHPMailer;
+
+if(!$debug) {
+    require $path . '/vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
+    $mail = new PHPMailer;
+    include($path . '/lib/drupalDataBase.php');
+    $drupalDataBase = new drupalDataBase($lang);
+}
 
 $statuses = $collectData->getDataArray('StatusCollection', 'Name');
-
 $guides = $drupalDataBase->getGuides($offset,$limit,'object',$lang);
 
 foreach($guides as $object) {
